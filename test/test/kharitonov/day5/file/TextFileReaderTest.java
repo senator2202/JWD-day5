@@ -1,6 +1,6 @@
 package test.kharitonov.day5.file;
 
-import by.kharitonov.day5.exception.TextException;
+import by.kharitonov.day5.exception.TextHandlingException;
 import by.kharitonov.day5.file.TextFileReader;
 import org.testng.annotations.Test;
 
@@ -25,7 +25,7 @@ public class TextFileReaderTest {
             String actual = textFileReader.readToString("resources\\" +
                     "Text.txt");
             assertEquals(actual, TEXT);
-        } catch (TextException e) {
+        } catch (TextHandlingException e) {
             fail();
         }
     }
