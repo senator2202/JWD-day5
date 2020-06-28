@@ -15,8 +15,9 @@ public class StringHandlingService {
         for (String word : words) {
             if (word.length() >= index) {
                 StringBuilder sb = new StringBuilder(word);
+                String regex="\\b"+word+"\\b";
                 sb.setCharAt(index - 1, charReplacement);
-                text = text.replaceFirst(word, sb.toString());
+                text = text.replaceFirst(regex, sb.toString());
             }
         }
         return text;
