@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class StringHandlingServiceTest {
-    private StringHandlingService stringHandlingService =
+    private final StringHandlingService stringHandlingService =
             new StringHandlingService();
 
     @Test

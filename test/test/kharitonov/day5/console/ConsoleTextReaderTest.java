@@ -1,7 +1,10 @@
 package test.kharitonov.day5.console;
 
 import by.kharitonov.day5.console.ConsoleTextReader;
+import by.kharitonov.day5.enumeration.TextData;
 import by.kharitonov.day5.exception.TextHandlingException;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -11,22 +14,26 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class ConsoleTextReaderTest {
-    private ConsoleTextReader consoleTextReader = new ConsoleTextReader();
-    private final String SOURCE_TEXT;
+    private final ConsoleTextReader consoleTextReader = new ConsoleTextReader();
 
-    {
-        String ls = System.getProperty("line.separator");
-        SOURCE_TEXT = "Однажды к пеликану неожиданно подошёл человек." +
-                " В это время котёнок сидел у птицы в клюве." + ls +
-                "Пеликан затолкал котёнка в глоточный мешок, " +
-                "сомкнул клюв и взмыл в воздух.";
+    @DataProvider(name = "dataReadText")
+    @Test
+    public Object[][] dataReadText() {
+        return new Object[][]{
+                {TextData.REPLACE_CHAR_IN_WORD.getTextBefore()},
+                {TextData.REPLACE_PA_TO_PO.getTextBefore()},
+                {TextData.REPLACE_WORD_SUBSTRING.getTextBefore()},
+                {TextData.DELETE_NOT_LETTERS.getTextBefore()},
+                {TextData.DELETE_CONSONANT_WORDS.getTextBefore()}
+        };
     }
 
-    @Test
-    public void testReadText() {
+    @Parameters({"inputString", "expectedString"})
+    @Test(dataProvider = "dataReadText")
+    public void testReadText(String inputString) {
         InputStream sysInBackup = System.in;
         ByteArrayInputStream in =
-                new ByteArrayInputStream(SOURCE_TEXT.getBytes());
+                new ByteArrayInputStream(inputString.getBytes());
         String text = "";
         System.setIn(in);
         try {
@@ -37,7 +44,7 @@ public class ConsoleTextReaderTest {
             System.setIn(sysInBackup);
         }
         System.setIn(sysInBackup);
-        assertEquals(text, SOURCE_TEXT);
+        assertEquals(text, inputString);
     }
 
     @Test(expectedExceptions = TextHandlingException.class,

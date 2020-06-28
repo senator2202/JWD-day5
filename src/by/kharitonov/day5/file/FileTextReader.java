@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FileTextReader {
-    public String readToString(String fileName) throws TextHandlingException {
+    public String read(String fileName) throws TextHandlingException {
         try {
             return new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {

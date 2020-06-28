@@ -8,16 +8,16 @@ import java.io.InputStreamReader;
 
 public class ConsoleTextReader {
     public String readText() throws TextHandlingException {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         String ls = System.getProperty("line.separator");
-        InputStreamReader isr = new InputStreamReader(System.in);
         try {
+            InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line).append(ls);
             }
-            sb.replace(sb.length() - ls.length() , sb.length(), "");
+            sb.replace(sb.length() - ls.length(), sb.length(), "");
             isr.close();
         } catch (IOException e) {
             throw new TextHandlingException("Error, while reading data!");

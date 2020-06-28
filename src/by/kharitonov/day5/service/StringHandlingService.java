@@ -23,7 +23,7 @@ public class StringHandlingService {
     }
 
     public String changePAToPO(String text) {
-        return text.replaceAll("ÐÀ", "ÐÎ");
+        return text.replace("ÐÀ", "ÐÎ");
     }
 
     public String replaceWordsToSubstring(String text, int wordLength,
@@ -40,9 +40,38 @@ public class StringHandlingService {
     public String deleteAllNotSpaceOrLetter(String text) {
         String[] targets = text.split(REGEX_SPLIT_NOT_SPACE_LETTER);
         for (String target : targets) {
+            target = handleMeta(target);
             text = text.replaceFirst(target, " ");
         }
         return text;
+    }
+
+    private String handleMeta(String data) {
+        StringBuilder sb = new StringBuilder(data);
+        for (int i = 0; i < sb.length(); i++) {
+            char ch = sb.charAt(i);
+            if (isMeta(ch)) {
+                sb.insert(i++, '\\');
+            }
+        }
+        return sb.toString();
+    }
+
+    private boolean isMeta(char ch) {
+        return getMetaSymbols().indexOf(ch) != -1;
+    }
+
+    private List<Character> getMetaSymbols() {
+        List<Character> list = new ArrayList<>();
+        list.add('.');
+        list.add('$');
+        list.add('\\');
+        list.add('*');
+        list.add('+');
+        list.add('?');
+        list.add('^');
+        list.add('|');
+        return list;
     }
 
     public String deleteConsonantWords(String text, int wordLength) {
