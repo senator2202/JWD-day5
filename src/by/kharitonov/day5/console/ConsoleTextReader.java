@@ -8,24 +8,22 @@ import java.io.InputStreamReader;
 
 public class ConsoleTextReader {
     public String readText() throws TextHandlingException {
-        String text = "";
+        StringBuilder sb=new StringBuilder();
         String ls = System.getProperty("line.separator");
         InputStreamReader isr = new InputStreamReader(System.in);
         try {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                text += line + ls;
+                sb.append(line).append(ls);
             }
-            StringBuilder sb = new StringBuilder(text);
-            sb.replace(text.length() - ls.length() , text.length(), "");
-            text = sb.toString();
+            sb.replace(sb.length() - ls.length() , sb.length(), "");
             isr.close();
         } catch (IOException e) {
             throw new TextHandlingException("Error, while reading data!");
         } catch (NullPointerException e) {
             throw new TextHandlingException("Input stream has null pointer!");
         }
-        return text;
+        return sb.toString();
     }
 }

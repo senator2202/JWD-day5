@@ -1,5 +1,6 @@
 package test.kharitonov.day5.service;
 
+import by.kharitonov.day5.enumeration.TextData;
 import by.kharitonov.day5.service.StringHandlingService;
 import org.testng.annotations.Test;
 
@@ -52,8 +53,9 @@ public class StringHandlingServiceTest {
     @Test
     public void testReplaceCharInWord() {
         String actual = stringHandlingService.
-                replaceCharInWord(SOURCE_TEXT, 2, '!');
-        assertEquals(actual, TEXT_INDEX_CHAR);
+                replaceCharInWord(TextData.REPLACE_CHAR_IN_WORD.getTextBefore(),
+                        2, '!');
+        assertEquals(actual, TextData.REPLACE_CHAR_IN_WORD.getTextAfter());
     }
 
     @Test
@@ -65,7 +67,7 @@ public class StringHandlingServiceTest {
     @Test
     public void testReplaceWordsToSubstring() {
         String actual = stringHandlingService.
-                replaceWordsToSubstring(TEXT_SUBSTRING, 5, "«¿Ã≈Õ¿");
+                replaceWordsToSubstring(SOURCE_TEXT, 5, "«¿Ã≈Õ¿");
         assertEquals(actual, TEXT_SUBSTRING);
     }
 
@@ -73,13 +75,13 @@ public class StringHandlingServiceTest {
     public void testDeleteAllNotSpaceOrLetter() {
         String actual = stringHandlingService.
                 deleteAllNotSpaceOrLetter(TEXT_EXTRA_SYMBALS);
-        assertEquals(actual,TEXT_WITHOUT_EXTRA_SYMBALS);
+        assertEquals(actual, TEXT_WITHOUT_EXTRA_SYMBALS);
     }
 
     @Test
     public void testDeleteConsonantWords() {
         String actual = stringHandlingService.
                 deleteConsonantWords(SOURCE_TEXT, 5);
-        assertEquals(actual,TEXT_WITHOUT_CONSONANT);
+        assertEquals(actual, TEXT_WITHOUT_CONSONANT);
     }
 }

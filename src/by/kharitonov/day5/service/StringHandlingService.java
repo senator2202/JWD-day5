@@ -31,7 +31,7 @@ public class StringHandlingService {
         String[] words = text.split(REGEX_SPLIT_WORDS);
         for (String word : words) {
             if (word.length() == wordLength) {
-                text.replaceAll(word, substring);
+                text = text.replaceAll(word, substring);
             }
         }
         return text;
