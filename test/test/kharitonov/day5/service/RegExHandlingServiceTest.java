@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class RegExHandlingServiceTest {
-    private RegExHandlingService service = new RegExHandlingService();
+    private final RegExHandlingService service = new RegExHandlingService();
 
     @Test
     public void testReplaceCharInWord() {

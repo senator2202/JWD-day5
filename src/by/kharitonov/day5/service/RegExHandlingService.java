@@ -63,7 +63,6 @@ public class RegExHandlingService {
     public String deleteAllNotSpaceOrLetter(String text) {
         Pattern pattern = Pattern.compile(REGEX_SPLIT_NOT_SPACE_LETTER);
         Matcher matcher = pattern.matcher(text);
-        StringBuilder sb = new StringBuilder();
         int delta = 0;
         int indexBefore = 0;
         int start;
