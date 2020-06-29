@@ -11,7 +11,7 @@ public class FileTextReader {
         try {
             return new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
-            throw new TextHandlingException("Wrong file name!");
+            throw new TextHandlingException("Error during reading file!");
         }
     }
 }
