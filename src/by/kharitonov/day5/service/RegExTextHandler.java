@@ -3,7 +3,7 @@ package by.kharitonov.day5.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegExHandlingService {
+public class RegExTextHandler {
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
         String regEx = "\\b\\S{" + index + "}";

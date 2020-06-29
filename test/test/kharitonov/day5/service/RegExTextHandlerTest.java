@@ -1,21 +1,21 @@
 package test.kharitonov.day5.service;
 
 import by.kharitonov.day5.enumeration.TextData;
-import by.kharitonov.day5.service.CharArrayHandlingService;
+import by.kharitonov.day5.service.RegExTextHandler;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class CharArrayHandlingServiceTest {
-    private final CharArrayHandlingService service =
-            new CharArrayHandlingService();
+public class RegExTextHandlerTest {
+    private final RegExTextHandler service = new RegExTextHandler();
 
     @Test
     public void testReplaceCharInWord() {
         String sourceText = TextData.REPLACE_CHAR_IN_WORD.getTextBefore();
         String expectedText = TextData.REPLACE_CHAR_IN_WORD.getTextAfter();
-        String actualTextText = service.replaceCharInWord(sourceText, 2, '!');
-        assertEquals(actualTextText, expectedText);
+        String actualText = service.replaceCharInWord(sourceText, 2, '!');
+        Assert.assertEquals(actualText, expectedText);
     }
 
     @Test
@@ -39,7 +39,8 @@ public class CharArrayHandlingServiceTest {
     public void testDeleteAllNotSpaceOrLetter() {
         String sourceText = TextData.DELETE_NOT_LETTERS.getTextBefore();
         String expectedText = TextData.DELETE_NOT_LETTERS.getTextAfter();
-        String actualText = service.deleteAllNotSpaceOrLetter(sourceText);
+        String actualText = service.
+                deleteAllNotSpaceOrLetter(sourceText);
         assertEquals(actualText, expectedText);
     }
 
