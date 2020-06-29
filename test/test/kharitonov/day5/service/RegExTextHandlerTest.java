@@ -8,13 +8,13 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class RegExTextHandlerTest {
-    private final RegExTextHandler service = new RegExTextHandler();
+    private final RegExTextHandler handler = new RegExTextHandler();
 
     @Test
     public void testReplaceCharInWord() {
         String sourceText = TextData.REPLACE_CHAR_IN_WORD.getTextBefore();
         String expectedText = TextData.REPLACE_CHAR_IN_WORD.getTextAfter();
-        String actualText = service.replaceCharInWord(sourceText, 2, '!');
+        String actualText = handler.replaceCharInWord(sourceText, 2, '!');
         Assert.assertEquals(actualText, expectedText);
     }
 
@@ -22,7 +22,7 @@ public class RegExTextHandlerTest {
     public void testChangePAToPO() {
         String sourceText = TextData.REPLACE_PA_TO_PO.getTextBefore();
         String expectedText = TextData.REPLACE_PA_TO_PO.getTextAfter();
-        String actualText = service.changePAToPO(sourceText);
+        String actualText = handler.changePAToPO(sourceText);
         assertEquals(actualText, expectedText);
     }
 
@@ -30,7 +30,7 @@ public class RegExTextHandlerTest {
     public void testReplaceWordsToSubstring() {
         String sourceText = TextData.REPLACE_WORD_SUBSTRING.getTextBefore();
         String expectedText = TextData.REPLACE_WORD_SUBSTRING.getTextAfter();
-        String actualText = service.
+        String actualText = handler.
                 replaceWordsToSubstring(sourceText, 7, "«¿Ã≈Õ¿");
         assertEquals(actualText, expectedText);
     }
@@ -39,7 +39,7 @@ public class RegExTextHandlerTest {
     public void testDeleteAllNotSpaceOrLetter() {
         String sourceText = TextData.DELETE_NOT_LETTERS.getTextBefore();
         String expectedText = TextData.DELETE_NOT_LETTERS.getTextAfter();
-        String actualText = service.
+        String actualText = handler.
                 deleteAllNotSpaceOrLetter(sourceText);
         assertEquals(actualText, expectedText);
     }
@@ -48,7 +48,7 @@ public class RegExTextHandlerTest {
     public void testDeleteConsonantWords() {
         String sourceText = TextData.DELETE_CONSONANT_WORDS.getTextBefore();
         String expectedText = TextData.DELETE_CONSONANT_WORDS.getTextAfter();
-        String actualText = service.deleteConsonantWords(sourceText, 7);
+        String actualText = handler.deleteConsonantWords(sourceText, 7);
         assertEquals(actualText, expectedText);
     }
 }
