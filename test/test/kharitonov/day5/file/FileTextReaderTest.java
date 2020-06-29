@@ -40,4 +40,9 @@ public class FileTextReaderTest {
             fail();
         }
     }
+
+    @Test(expectedExceptions = TextHandlingException.class)
+    public void testReadException() throws TextHandlingException {
+        fileTextReader.read("WrongFile.txt");
+    }
 }

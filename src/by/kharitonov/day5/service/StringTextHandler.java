@@ -3,7 +3,7 @@ package by.kharitonov.day5.service;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringTextEditor {
+public class StringTextHandler {
     private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|-|!|\\.)\\s*";
 
     /*index starts from 1*/
