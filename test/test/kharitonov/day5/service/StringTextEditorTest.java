@@ -1,13 +1,13 @@
 package test.kharitonov.day5.service;
 
 import by.kharitonov.day5.enumeration.TextData;
-import by.kharitonov.day5.service.StringTextHandler;
+import by.kharitonov.day5.service.StringTextEditor;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class StringTextHandlerTest {
-    private final StringTextHandler service = new StringTextHandler();
+public class StringTextEditorTest {
+    private final StringTextEditor service = new StringTextEditor();
 
     @Test
     public void testReplaceCharInWord() {

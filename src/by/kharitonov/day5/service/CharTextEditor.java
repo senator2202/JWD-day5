@@ -2,7 +2,7 @@ package by.kharitonov.day5.service;
 
 import java.util.Arrays;
 
-public class CharTextHandler {
+public class CharTextEditor {
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
         char[] data = text.toCharArray();

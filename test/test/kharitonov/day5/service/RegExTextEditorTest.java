@@ -1,14 +1,14 @@
 package test.kharitonov.day5.service;
 
 import by.kharitonov.day5.enumeration.TextData;
-import by.kharitonov.day5.service.RegExTextHandler;
+import by.kharitonov.day5.service.RegExTextEditor;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class RegExTextHandlerTest {
-    private final RegExTextHandler service = new RegExTextHandler();
+public class RegExTextEditorTest {
+    private final RegExTextEditor service = new RegExTextEditor();
 
     @Test
     public void testReplaceCharInWord() {
