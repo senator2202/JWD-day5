@@ -1,28 +1,17 @@
 package by.kharitonov.day5.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExHandlingService {
-    private static final String REGEX_WORDS = "\\b[à-ÿÀ-ß\\w¸]+\\b";
-    private static final String REGEX_PA = "ÐÀ";
-    private static final String REGEX_SPLIT_NOT_SPACE_LETTER =
-            "[à-ÿÀ-ßa-zA-Z\\s]+";
-
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
-        Pattern pattern = Pattern.compile(REGEX_WORDS);
+        String regEx = "\\b\\S{" + index + "}";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
-            String word = matcher.group();
-            if (word.length() >= index) {
-                StringBuilder sb = new StringBuilder(word);
-                sb.setCharAt(index - 1, charReplacement);
-                text = replace(text, matcher.start(),
-                        matcher.end(), sb.toString());
-            }
+            String temp = "" + charReplacement;
+            text = replace(text, matcher.end() - 1, matcher.end(), temp);
         }
         return text;
     }
@@ -35,7 +24,8 @@ public class RegExHandlingService {
     }
 
     public String changePAToPO(String text) {
-        Pattern pattern = Pattern.compile(REGEX_PA);
+        String regEx = "ÐÀ";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             text = replace(text, matcher.start(), matcher.end(), "ÐÎ");
@@ -45,23 +35,22 @@ public class RegExHandlingService {
 
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
-        Pattern pattern = Pattern.compile(REGEX_WORDS);
+        String regEx = "\\b[à-ÿÀ-ß\\w¸]{" + wordLength + "}\\b";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
         while (matcher.find()) {
-            String word = matcher.group();
-            if (word.length() == wordLength) {
-                int start = matcher.start() + delta;
-                int end = matcher.end() + delta;
-                text = replace(text, start, end, substring);
-                delta += substring.length() - wordLength;
-            }
+            int start = matcher.start() + delta;
+            int end = matcher.end() + delta;
+            text = replace(text, start, end, substring);
+            delta += substring.length() - wordLength;
         }
         return text;
     }
 
     public String deleteAllNotSpaceOrLetter(String text) {
-        Pattern pattern = Pattern.compile(REGEX_SPLIT_NOT_SPACE_LETTER);
+        String regEx = "[à-ÿÀ-ßa-zA-Z\\s]+";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
         int indexBefore = 0;
@@ -81,69 +70,18 @@ public class RegExHandlingService {
     }
 
     public String deleteConsonantWords(String text, int wordLength) {
-        Pattern pattern = Pattern.compile(REGEX_WORDS);
+        String regEx = "\\b[áâãäæçêëìíïðñòôõö÷øùbcdfghjklmnpqrstvwxz" +
+                "ÁÂÃÄÆÇÊËÌÍÏÐÑÒÔÕÖ×ØÙBCDFGHJKLMNPQRSTVWXZ][\\S]" +
+                "{" + (wordLength - 1) + "}\\b";
+        Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
         while (matcher.find()) {
-            String word = matcher.group();
-            if (word.length() == wordLength && startsConsonant(word)) {
-                int start = matcher.start() + delta;
-                int end = matcher.end() + delta;
-                text = replace(text, start, end, "");
-                delta -= wordLength;
-            }
+            int start = matcher.start() + delta;
+            int end = matcher.end() + delta;
+            text = replace(text, start, end, "");
+            delta -= wordLength;
         }
         return text;
-    }
-
-    private boolean startsConsonant(String word) {
-        StringBuilder sb = new StringBuilder(word.toLowerCase());
-        Character ch = sb.charAt(0);
-        return consonantList().indexOf(ch) != -1;
-    }
-
-    private List<Character> consonantList() {
-        List<Character> list = new ArrayList<>();
-        list.add('á');
-        list.add('â');
-        list.add('ã');
-        list.add('ä');
-        list.add('æ');
-        list.add('ç');
-        list.add('é');
-        list.add('ê');
-        list.add('ë');
-        list.add('ì');
-        list.add('í');
-        list.add('ï');
-        list.add('ð');
-        list.add('ñ');
-        list.add('ò');
-        list.add('ô');
-        list.add('õ');
-        list.add('ö');
-        list.add('÷');
-        list.add('ø');
-        list.add('ù');
-        list.add('b');
-        list.add('c');
-        list.add('d');
-        list.add('f');
-        list.add('g');
-        list.add('h');
-        list.add('j');
-        list.add('k');
-        list.add('l');
-        list.add('m');
-        list.add('p');
-        list.add('q');
-        list.add('r');
-        list.add('s');
-        list.add('t');
-        list.add('v');
-        list.add('w');
-        list.add('x');
-        list.add('z');
-        return list;
     }
 }

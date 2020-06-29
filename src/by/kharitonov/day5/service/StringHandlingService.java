@@ -5,8 +5,6 @@ import java.util.List;
 
 public class StringHandlingService {
     private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|-|!|\\.)\\s*";
-    private static final String REGEX_SPLIT_NOT_SPACE_LETTER =
-            "[à-ÿÀ-ßa-zA-Z\\s]+";
 
     /*index starts from 1*/
     public String replaceCharInWord(String text, int index,
@@ -39,7 +37,8 @@ public class StringHandlingService {
     }
 
     public String deleteAllNotSpaceOrLetter(String text) {
-        String[] targets = text.split(REGEX_SPLIT_NOT_SPACE_LETTER);
+        String regEx = "[à-ÿÀ-ßa-zA-Z\\s]+";
+        String[] targets = text.split(regEx);
         for (String target : targets) {
             target = handleMeta(target);
             text = text.replaceFirst(target, " ");
