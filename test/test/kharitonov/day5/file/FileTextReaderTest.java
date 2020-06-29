@@ -31,7 +31,8 @@ public class FileTextReaderTest {
     }
 
     @Parameters({"fileName", "expectedString"})
-    @Test(dataProvider = "dataRead")
+    @Test(dataProvider = "dataRead",
+            groups = {"fileChar", "fileRegEx", "fileString"})
     public void testRead(String fileName, String expectedString) {
         try {
             String actual = fileTextReader.read(fileName);

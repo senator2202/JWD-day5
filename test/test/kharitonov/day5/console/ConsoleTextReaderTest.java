@@ -29,7 +29,8 @@ public class ConsoleTextReaderTest {
     }
 
     @Parameters({"inputString", "expectedString"})
-    @Test(dataProvider = "dataReadText")
+    @Test(dataProvider = "dataReadText",
+            groups = {"consoleChar", "consoleRegEx", "consoleString"})
     public void testReadText(String inputString) {
         InputStream sysInBackup = System.in;
         ByteArrayInputStream in =
