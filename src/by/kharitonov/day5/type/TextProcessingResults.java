@@ -1,4 +1,4 @@
-package type;
+package by.kharitonov.day5.type;
 
 public class TextProcessingResults {
     public static final String SOURCE_TEXT;

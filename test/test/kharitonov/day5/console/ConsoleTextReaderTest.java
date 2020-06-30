@@ -3,7 +3,7 @@ package test.kharitonov.day5.console;
 import by.kharitonov.day5.console.ConsoleTextReader;
 import by.kharitonov.day5.exception.TextProcessingException;
 import org.testng.annotations.Test;
-import type.TextProcessingResults;
+import by.kharitonov.day5.type.TextProcessingResults;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

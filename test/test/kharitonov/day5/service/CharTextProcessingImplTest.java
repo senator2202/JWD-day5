@@ -2,7 +2,7 @@ package test.kharitonov.day5.service;
 
 import by.kharitonov.day5.service.impl.CharTextProcessingImpl;
 import org.testng.annotations.Test;
-import type.TextProcessingResults;
+import by.kharitonov.day5.type.TextProcessingResults;
 
 import static org.testng.Assert.assertEquals;
 

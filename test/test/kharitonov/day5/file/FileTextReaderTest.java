@@ -3,7 +3,7 @@ package test.kharitonov.day5.file;
 import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.file.FileTextReader;
 import org.testng.annotations.Test;
-import type.TextProcessingResults;
+import by.kharitonov.day5.type.TextProcessingResults;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
