@@ -6,7 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringTextProcessingImpl implements TextProcessing {
-    private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.)\\s*";
+    private static final String REGEX_SPLIT_WORDS;
+    private static final String REGEX_SPLIT_NOT_SPACE_LETTER;
+
+    static {
+        String ls = System.getProperty("line.separator");
+        REGEX_SPLIT_NOT_SPACE_LETTER = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
+        REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.)\\s*";
+    }
 
     /*index starts from 1*/
     @Override
@@ -44,8 +51,7 @@ public class StringTextProcessingImpl implements TextProcessing {
 
     @Override
     public String deleteAllNotSpaceOrLetter(String text) {
-        String ls = System.getProperty("line.separator");
-        String regEx = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
+        String regEx = REGEX_SPLIT_NOT_SPACE_LETTER;
         String[] targets = text.split(regEx);
         for (String target : targets) {
             if (target.isEmpty()) {

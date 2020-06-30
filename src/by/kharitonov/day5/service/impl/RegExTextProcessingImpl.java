@@ -6,17 +6,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExTextProcessingImpl implements TextProcessing {
+    private static final String REGEX_PART_BEFORE_INDEX = "\\b[\\S]{";
+    private static final String REGEX_PART_AFTER_INDEX = ",}\\b";
+    private static final String REGEX_WORD_BEFORE_LENGTH = "\\b[à-ÿÀ-ß¸¨\\w]{";
+    private static final String REGEX_WORD_AFTER_LENGTH = "}\\b";
+    private static final String REGEX_NOT_SPACE_LETTER =
+            "([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(\\r\\n)*";
+    private static final String REGEX_CONSONANT_WORD_BEFORE_LENGTH =
+            "\\b[á-ùÁ-Ù\\w&&[^\\då¸èîóûÅ¨ÈÎÓÛaeiouAEIOU]][\\S]{";
+
     @Override
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
-        String regEx = "\\b[\\S]{" + index + ",}\\b";
+        String regEx = REGEX_PART_BEFORE_INDEX + index + REGEX_PART_AFTER_INDEX;
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             String temp = "" + charReplacement;
-            int start = matcher.start()+index-1;
-            int end = start+1;
-            text = replace(text, start,end, temp);
+            int start = matcher.start() + index - 1;
+            int end = start + 1;
+            text = replace(text, start, end, temp);
         }
         return text;
     }
@@ -42,7 +51,8 @@ public class RegExTextProcessingImpl implements TextProcessing {
     @Override
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
-        String regEx = "\\b[à-ÿÀ-ß\\w¸¨]{" + wordLength + "}\\b";
+        String regEx = REGEX_WORD_BEFORE_LENGTH + wordLength +
+                REGEX_WORD_AFTER_LENGTH;
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
@@ -57,7 +67,7 @@ public class RegExTextProcessingImpl implements TextProcessing {
 
     @Override
     public String deleteAllNotSpaceOrLetter(String text) {
-        String regEx = "([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(\\r\\n)*";
+        String regEx = REGEX_NOT_SPACE_LETTER;
         Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text);
         int start;
@@ -74,9 +84,8 @@ public class RegExTextProcessingImpl implements TextProcessing {
 
     @Override
     public String deleteConsonantWords(String text, int wordLength) {
-        String regEx = "\\b[áâãäæçêëìíïðñòôõö÷øùbcdfghjklmnpqrstvwxz" +
-                "ÁÂÃÄÆÇÊËÌÍÏÐÑÒÔÕÖ×ØÙBCDFGHJKLMNPQRSTVWXZ][\\S]" +
-                "{" + (wordLength - 1) + "}\\b";
+        String regEx = REGEX_CONSONANT_WORD_BEFORE_LENGTH + (wordLength - 1) +
+                REGEX_WORD_AFTER_LENGTH;
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
