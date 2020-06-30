@@ -1,4 +1,4 @@
-package test.kharitonov.day5.service;
+package test.kharitonov.day5.service.impl;
 
 import by.kharitonov.day5.service.impl.CharTextProcessingImpl;
 import org.testng.annotations.Test;
