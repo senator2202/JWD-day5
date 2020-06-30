@@ -1,8 +1,8 @@
 package test.kharitonov.day5.service.impl;
 
 import by.kharitonov.day5.service.impl.CharTextProcessingImpl;
-import org.testng.annotations.Test;
 import by.kharitonov.day5.type.TextProcessingResults;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
@@ -22,7 +22,8 @@ public class CharTextProcessingImplTest {
     public void testReplaceOneWithAnother() {
         String sourceText = TextProcessingResults.SOURCE_TEXT;
         String expectedText = TextProcessingResults.REPLACED_ONE_TO_ANOTHER;
-        String actualText = processor.replaceOneWithAnother(sourceText, "ÐÀ", "ÐÎ");
+        String actualText = processor.replaceOneWithAnother(sourceText, "ÐÀ",
+                "ÐÎ");
         assertEquals(actualText, expectedText);
     }
 

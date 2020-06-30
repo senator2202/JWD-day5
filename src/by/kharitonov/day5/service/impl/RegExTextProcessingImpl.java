@@ -6,14 +6,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExTextProcessingImpl implements TextProcessing {
-    private static final String REGEX_PART_BEFORE_INDEX = "\\b[\\S]{";
-    private static final String REGEX_PART_AFTER_INDEX = ",}\\b";
-    private static final String REGEX_WORD_BEFORE_LENGTH = "\\b[à-ÿÀ-ß¸¨\\w]{";
-    private static final String REGEX_WORD_AFTER_LENGTH = "}\\b";
-    private static final String REGEX_NOT_SPACE_LETTER =
-            "([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(\\r\\n)*";
-    private static final String REGEX_CONSONANT_WORD_BEFORE_LENGTH =
-            "\\b[á-ùÁ-Ù\\w&&[^\\då¸èîóûÅ¨ÈÎÓÛaeiouAEIOU]][\\S]{";
+    private static final String REGEX_PART_BEFORE_INDEX;
+    private static final String REGEX_PART_AFTER_INDEX;
+    private static final String REGEX_WORD_BEFORE_LENGTH;
+    private static final String REGEX_WORD_AFTER_LENGTH;
+    private static final String REGEX_NOT_SPACE_LETTER;
+    private static final String REGEX_CONSONANT_WORD_BEFORE_LENGTH;
+
+    static {
+        String ls = System.getProperty("line.separator");
+        REGEX_PART_BEFORE_INDEX = "\\b[\\S]{";
+        REGEX_PART_AFTER_INDEX = ",}\\b";
+        REGEX_WORD_BEFORE_LENGTH = "\\b[à-ÿÀ-ß¸¨\\w]{";
+        REGEX_WORD_AFTER_LENGTH = "}\\b";
+        REGEX_NOT_SPACE_LETTER = String.format("([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(%s)*",
+                ls);
+        REGEX_CONSONANT_WORD_BEFORE_LENGTH =
+                "\\b[á-ùÁ-Ù\\w&&[^\\då¸èîóûÅ¨ÈÎÓÛaeiouAEIOU]][\\S]{";
+    }
 
     @Override
     public String replaceCharInWord(String text, int index,
