@@ -6,12 +6,14 @@ import java.util.regex.Pattern;
 public class RegExTextHandler {
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
-        String regEx = "\\b\\S{" + index + "}";
+        String regEx = "\\b[\\S]{" + index + ",}\\b";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             String temp = "" + charReplacement;
-            text = replace(text, matcher.end() - 1, matcher.end(), temp);
+            int start = matcher.start()+index-1;
+            int end = start+1;
+            text = replace(text, start,end, temp);
         }
         return text;
     }
@@ -23,19 +25,19 @@ public class RegExTextHandler {
         return head + replacement + tail;
     }
 
-    public String changePAToPO(String text) {
-        String regEx = "ÐÀ";
-        Pattern pattern = Pattern.compile(regEx);
+    public String changeOneToAnother(String text, String target,
+                                     String replacement) {
+        Pattern pattern = Pattern.compile(target);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
-            text = replace(text, matcher.start(), matcher.end(), "ÐÎ");
+            text = replace(text, matcher.start(), matcher.end(), replacement);
         }
         return text;
     }
 
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
-        String regEx = "\\b[à-ÿÀ-ß\\w¸]{" + wordLength + "}\\b";
+        String regEx = "\\b[à-ÿÀ-ß\\w¸¨]{" + wordLength + "}\\b";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         int delta = 0;
@@ -49,23 +51,18 @@ public class RegExTextHandler {
     }
 
     public String deleteAllNotSpaceOrLetter(String text) {
-        String regEx = "[à-ÿÀ-ßa-zA-Z\\s]+";
-        Pattern pattern = Pattern.compile(regEx);
+        String regEx = "([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(\\r\\n)*";
+        Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text);
-        int delta = 0;
-        int indexBefore = 0;
         int start;
         int end;
+        int delta = 0;
         while (matcher.find()) {
-            start = indexBefore - delta;
-            end = matcher.start() - delta;
+            start = matcher.start() + delta;
+            end = matcher.end() + delta;
             text = replace(text, start, end, " ");
-            delta += end - start - 1;
-            indexBefore = matcher.end();
+            delta += (matcher.start() - matcher.end() + 1);
         }
-        start = indexBefore - delta;
-        end = text.length();
-        text = replace(text, start, end, " ");
         return text;
     }
 

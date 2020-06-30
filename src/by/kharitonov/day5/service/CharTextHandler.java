@@ -8,7 +8,7 @@ public class CharTextHandler {
         char[] data = text.toCharArray();
         for (int i = 0; i < data.length; i++) {
             int j = i;
-            for (; j < data.length && !isWordBoundary(data[j]); j++) ;
+            for (; j < data.length && !isWordBoundary(data, j); j++) ;
             if ((j - i) >= index) {
                 data[i + index - 1] = charReplacement;
             }
@@ -17,11 +17,23 @@ public class CharTextHandler {
         return new String(data);
     }
 
-    public String changePAToPO(String text) {
+    public String changeOneToAnother(String text, String target,
+                                     String replacement) {
         char[] data = text.toCharArray();
+        char[] charsTarget = target.toCharArray();
+        int delta = target.length() - replacement.length();
         for (int i = 0; i < data.length; i++) {
-            if (data[i] == 'Ð' && data[i + 1] == 'À') {
-                data[++i] = 'Î';
+            boolean equals = true;
+            for (int j = 0; j < target.length(); j++) {
+                if (data[i + j] != charsTarget[j]) {
+                    equals = false;
+                    break;
+                }
+            }
+            if (equals) {
+                data = replace(data, i, i + target.length(),
+                        replacement.toCharArray());
+                i += delta;
             }
         }
         return new String(data);
@@ -34,7 +46,7 @@ public class CharTextHandler {
         for (int i = 0; i < data.length; i++) {
             delta = 0;
             int j = i;
-            for (; j < data.length && !isWordBoundary(data[j]); j++) ;
+            for (; j < data.length && !isWordBoundary(data, j); j++) ;
             if ((j - i) == wordLength) {
                 data = replace(data, i, j, substring.toCharArray());
                 delta = substring.length() - wordLength;
@@ -44,15 +56,22 @@ public class CharTextHandler {
         return new String(data);
     }
 
-    private boolean isWordBoundary(char character) {
-        return character == ' ' ||
-                character == '\n' ||
-                character == '?' ||
-                character == ',' ||
-                character == '.' ||
-                character == '!' ||
-                character == ':' ||
-                character == ';';
+    private boolean isWordBoundary(char[] data, int index) {
+        char ch = data[index];
+        char chNext = index == data.length - 1 ? ' ' : data[index + 1];
+        boolean result = false;
+        if (index == data.length - 1) {
+            return true;
+        }
+        if (ch == ' ' || ch == '\n') {
+            result = true;
+        }
+        if ((ch == '?' || ch == ',' || ch == '.' ||
+                ch == '!' || ch == ':' || ch == ';') &&
+                (chNext == ' ' || chNext == '\r' || chNext == '\n')) {
+            result = true;
+        }
+        return result;
     }
 
     private char[] replace(char[] data, int start, int end, char[] sequence) {
@@ -72,12 +91,12 @@ public class CharTextHandler {
         char[] data = text.toCharArray();
         int delta;
         for (int i = 0; i < data.length; i++) {
-            delta = 0;
             int j = i;
+            delta=0;
             for (; j < data.length && !isSpaceOrLetter(data[j]); j++) ;
             if (j != i) {
                 data = replace(data, i, j, " ".toCharArray());
-                delta = 1 - (j - i);
+                delta = i - j;
             }
             i = j + delta;
         }
@@ -85,10 +104,8 @@ public class CharTextHandler {
     }
 
     private boolean isSpaceOrLetter(char character) {
-        return (Character.isAlphabetic(character) ||
-                character == ' ' ||
-                character == '\r' ||
-                character == '\n');
+        return (Character.isLetter(character) ||
+                character == ' ');
     }
 
     public String deleteConsonantWords(String text, int wordLength) {
@@ -97,10 +114,10 @@ public class CharTextHandler {
         for (int i = 0; i < data.length; i++) {
             delta = 0;
             int j = i;
-            for (; j < data.length && !isWordBoundary(data[j]); j++) ;
+            for (; j < data.length && !isWordBoundary(data, j); j++) ;
             if ((j - i) == wordLength && isConsonant(data[i])) {
                 data = replace(data, i, j, "".toCharArray());
-                delta = i-j;
+                delta = i - j;
             }
             i = j + delta;
         }

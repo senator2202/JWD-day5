@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringTextHandler {
-    private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|-|!|\\.)\\s*";
+    private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.)\\s*";
 
     /*index starts from 1*/
     public String replaceCharInWord(String text, int index,
@@ -13,7 +13,7 @@ public class StringTextHandler {
         for (String word : words) {
             if (word.length() >= index) {
                 StringBuilder sb = new StringBuilder(word);
-                String regex="\\b"+word+"\\b";
+                String regex = "\\b" + word + "\\b";
                 sb.setCharAt(index - 1, charReplacement);
                 text = text.replaceFirst(regex, sb.toString());
             }
@@ -21,8 +21,9 @@ public class StringTextHandler {
         return text;
     }
 
-    public String changePAToPO(String text) {
-        return text.replace("ÐÀ", "ÐÎ");
+    public String changeOneToAnother(String text, String target,
+                                     String replacement) {
+        return text.replace(target, replacement);
     }
 
     public String replaceWordsToSubstring(String text, int wordLength,
@@ -37,9 +38,13 @@ public class StringTextHandler {
     }
 
     public String deleteAllNotSpaceOrLetter(String text) {
-        String regEx = "[à-ÿÀ-ßa-zA-Z\\s]+";
+        String ls = System.getProperty("line.separator");
+        String regEx = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
         String[] targets = text.split(regEx);
         for (String target : targets) {
+            if (target.isEmpty()) {
+                continue;
+            }
             target = handleMeta(target);
             text = text.replaceFirst(target, " ");
         }
