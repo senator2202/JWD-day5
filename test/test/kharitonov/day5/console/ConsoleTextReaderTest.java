@@ -1,9 +1,9 @@
 package test.kharitonov.day5.console;
 
 import by.kharitonov.day5.console.ConsoleTextReader;
-import by.kharitonov.day5.exception.TextHandlingException;
+import by.kharitonov.day5.exception.TextProcessingException;
 import org.testng.annotations.Test;
-import type.TextHandlingResults;
+import type.TextProcessingResults;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public class ConsoleTextReaderTest {
 
     @Test(groups = {"consoleChar", "consoleRegEx", "consoleString"})
     public void testReadText() {
-        String inputString = TextHandlingResults.SOURCE_TEXT;
+        String inputString = TextProcessingResults.SOURCE_TEXT;
         InputStream sysInBackup = System.in;
         ByteArrayInputStream in =
                 new ByteArrayInputStream(inputString.getBytes());
@@ -24,7 +24,7 @@ public class ConsoleTextReaderTest {
         System.setIn(in);
         try {
             text = consoleTextReader.readText();
-        } catch (TextHandlingException e) {
+        } catch (TextProcessingException e) {
             fail();
         } finally {
             System.setIn(sysInBackup);
@@ -33,15 +33,15 @@ public class ConsoleTextReaderTest {
         assertEquals(text, inputString);
     }
 
-    @Test(expectedExceptions = TextHandlingException.class,
+    @Test(expectedExceptions = TextProcessingException.class,
             expectedExceptionsMessageRegExp = "Input stream has null pointer!")
-    public void testReadTextExceptionNull() throws TextHandlingException {
+    public void testReadTextExceptionNull() throws TextProcessingException {
         InputStream sysInBackup = System.in;
         System.setIn(null);
         try {
             consoleTextReader.readText();
-        } catch (TextHandlingException e) {
-            throw new TextHandlingException(e.getMessage());
+        } catch (TextProcessingException e) {
+            throw new TextProcessingException(e.getMessage());
         } finally {
             System.setIn(sysInBackup);
         }

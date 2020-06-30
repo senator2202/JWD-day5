@@ -1,8 +1,11 @@
-package by.kharitonov.day5.service;
+package by.kharitonov.day5.service.impl;
+
+import by.kharitonov.day5.service.TextProcessing;
 
 import java.util.Arrays;
 
-public class CharTextHandler {
+public class CharTextProcessingImpl implements TextProcessing {
+    @Override
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
         char[] data = text.toCharArray();
@@ -17,8 +20,9 @@ public class CharTextHandler {
         return new String(data);
     }
 
-    public String changeOneToAnother(String text, String target,
-                                     String replacement) {
+    @Override
+    public String replaceOneWithAnother(String text, String target,
+                                        String replacement) {
         char[] data = text.toCharArray();
         char[] charsTarget = target.toCharArray();
         int delta = target.length() - replacement.length();
@@ -39,6 +43,7 @@ public class CharTextHandler {
         return new String(data);
     }
 
+    @Override
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
         char[] data = text.toCharArray();
@@ -87,12 +92,13 @@ public class CharTextHandler {
         return newData;
     }
 
+    @Override
     public String deleteAllNotSpaceOrLetter(String text) {
         char[] data = text.toCharArray();
         int delta;
         for (int i = 0; i < data.length; i++) {
             int j = i;
-            delta=0;
+            delta = 0;
             for (; j < data.length && !isSpaceOrLetter(data[j]); j++) ;
             if (j != i) {
                 data = replace(data, i, j, " ".toCharArray());
@@ -108,6 +114,7 @@ public class CharTextHandler {
                 character == ' ');
     }
 
+    @Override
     public String deleteConsonantWords(String text, int wordLength) {
         char[] data = text.toCharArray();
         int delta;

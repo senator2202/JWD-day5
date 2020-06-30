@@ -1,6 +1,6 @@
 package type;
 
-public class TextHandlingResults {
+public class TextProcessingResults {
     public static final String SOURCE_TEXT;
     public static final String REPLACED_CHAR_IN_WORDS;
     public static final String REPLACED_ONE_TO_ANOTHER;
@@ -39,10 +39,10 @@ public class TextHandlingResults {
                 "РАботя25га был недо<<волен РАзмером зарпл_аты, " +
                 "ЗАМЕНА ЗАМЕНА в пол322силы.";
         DELETED_NOT_LETTERS = "Однажды к пеликану неожиданно подошёл " +
-                "человек  В это время котёнок сидел у птицы в клюве "  +
+                "человек  В это время котёнок сидел у птицы в клюве " +
                 "Once a man suddenly approached a pelican  " +
                 "At this time  the kitten was sitting by " +
-                "the bird in its beak "  +
+                "the bird in its beak " +
                 "РАботя га был недо волен РАзмером зарпл аты  " +
                 "поэтому работал в пол силы ";
         DELETED_CONSONANT_WORDS = "Однажды к пеликану неожиданно  . " +
@@ -52,5 +52,8 @@ public class TextHandlingResults {
                 "the bird in its beak." + ls +
                 "РАботя25га был недо<<волен РАзмером зарпл_аты, " +
                 "  в пол322силы.";
+    }
+
+    private TextProcessingResults() {
     }
 }

@@ -1,9 +1,12 @@
-package by.kharitonov.day5.service;
+package by.kharitonov.day5.service.impl;
+
+import by.kharitonov.day5.service.TextProcessing;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegExTextHandler {
+public class RegExTextProcessingImpl implements TextProcessing {
+    @Override
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
         String regEx = "\\b[\\S]{" + index + ",}\\b";
@@ -25,8 +28,9 @@ public class RegExTextHandler {
         return head + replacement + tail;
     }
 
-    public String changeOneToAnother(String text, String target,
-                                     String replacement) {
+    @Override
+    public String replaceOneWithAnother(String text, String target,
+                                        String replacement) {
         Pattern pattern = Pattern.compile(target);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
@@ -35,6 +39,7 @@ public class RegExTextHandler {
         return text;
     }
 
+    @Override
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
         String regEx = "\\b[à-ÿÀ-ß\\w¸¨]{" + wordLength + "}\\b";
@@ -50,6 +55,7 @@ public class RegExTextHandler {
         return text;
     }
 
+    @Override
     public String deleteAllNotSpaceOrLetter(String text) {
         String regEx = "([^à-ÿÀ-ßa-zA-Z¸¨\\s]+)(\\r\\n)*";
         Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
@@ -66,6 +72,7 @@ public class RegExTextHandler {
         return text;
     }
 
+    @Override
     public String deleteConsonantWords(String text, int wordLength) {
         String regEx = "\\b[áâãäæçêëìíïğñòôõö÷øùbcdfghjklmnpqrstvwxz" +
                 "ÁÂÃÄÆÇÊËÌÍÏĞÑÒÔÕÖ×ØÙBCDFGHJKLMNPQRSTVWXZ][\\S]" +

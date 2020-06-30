@@ -1,12 +1,15 @@
-package by.kharitonov.day5.service;
+package by.kharitonov.day5.service.impl;
+
+import by.kharitonov.day5.service.TextProcessing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringTextHandler {
+public class StringTextProcessingImpl implements TextProcessing {
     private static final String REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.)\\s*";
 
     /*index starts from 1*/
+    @Override
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
         String[] words = text.split(REGEX_SPLIT_WORDS);
@@ -21,11 +24,13 @@ public class StringTextHandler {
         return text;
     }
 
-    public String changeOneToAnother(String text, String target,
-                                     String replacement) {
+    @Override
+    public String replaceOneWithAnother(String text, String target,
+                                        String replacement) {
         return text.replace(target, replacement);
     }
 
+    @Override
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
         String[] words = text.split(REGEX_SPLIT_WORDS);
@@ -37,6 +42,7 @@ public class StringTextHandler {
         return text;
     }
 
+    @Override
     public String deleteAllNotSpaceOrLetter(String text) {
         String ls = System.getProperty("line.separator");
         String regEx = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
@@ -79,6 +85,7 @@ public class StringTextHandler {
         return list;
     }
 
+    @Override
     public String deleteConsonantWords(String text, int wordLength) {
         String[] words = text.split(REGEX_SPLIT_WORDS);
         for (String word : words) {
