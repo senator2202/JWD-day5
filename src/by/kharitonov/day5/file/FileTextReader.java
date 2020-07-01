@@ -11,7 +11,11 @@ public class FileTextReader {
         try {
             return new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
-            throw new TextProcessingException("Error during reading file!");
+            throw new TextProcessingException("Error during reading file!",
+                    e.getCause());
+        } catch (NullPointerException e) {
+            throw new TextProcessingException("Null pointer detected!",
+                    e.getCause());
         }
     }
 }

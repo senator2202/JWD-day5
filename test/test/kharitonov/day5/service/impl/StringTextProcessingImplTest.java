@@ -11,7 +11,7 @@ public class StringTextProcessingImplTest {
             new StringTextProcessingImpl();
 
     @Test(groups = {"consoleString", "fileString"}, priority = 1)
-    public void testReplaceOneWithAnother() {
+    public void testReplaceCharInWord() {
         String sourceText = TextProcessingResults.SOURCE_TEXT;
         String expectedText = TextProcessingResults.REPLACED_CHAR_IN_WORDS;
         String actualTextText = processor.replaceCharInWord(sourceText, 2, '!');
@@ -19,7 +19,7 @@ public class StringTextProcessingImplTest {
     }
 
     @Test(groups = {"consoleString", "fileString"}, priority = 2)
-    public void testChangePAToPO() {
+    public void testReplaceOneWithAnother() {
         String sourceText = TextProcessingResults.SOURCE_TEXT;
         String expectedText = TextProcessingResults.REPLACED_ONE_TO_ANOTHER;
         String actualText = processor.replaceOneWithAnother(sourceText, "ÐÀ", "ÐÎ");

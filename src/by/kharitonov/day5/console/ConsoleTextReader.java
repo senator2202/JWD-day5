@@ -20,9 +20,11 @@ public class ConsoleTextReader {
             sb.replace(sb.length() - ls.length(), sb.length(), "");
             isr.close();
         } catch (IOException e) {
-            throw new TextProcessingException("Error, while reading data!");
+            throw new TextProcessingException("Error, while reading data!",
+                    e.getCause());
         } catch (NullPointerException e) {
-            throw new TextProcessingException("Input stream has null pointer!");
+            throw new TextProcessingException("Input stream has null pointer!",
+                    e.getCause());
         }
         return sb.toString();
     }

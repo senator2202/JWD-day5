@@ -2,8 +2,10 @@ package test.kharitonov.day5.file;
 
 import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.file.FileTextReader;
-import org.testng.annotations.Test;
 import by.kharitonov.day5.type.TextProcessingResults;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -23,8 +25,21 @@ public class FileTextReaderTest {
         }
     }
 
-    @Test(expectedExceptions = TextProcessingException.class)
-    public void testReadException() throws TextProcessingException {
-        fileTextReader.read("WrongFile.txt");
+    @DataProvider(name = "dataReadException")
+    @Test
+    public Object[][] dataReadEXception() {
+        return new Object[][]{
+                {null},
+                {"WrongFile.txt"}
+        };
+    }
+
+    @Parameters("fileName")
+    @Test(expectedExceptions = TextProcessingException.class,
+            dataProvider = "dataReadException",
+            groups = {"fileChar", "fileRegEx", "fileString"})
+    public void testReadException(String fileName)
+            throws TextProcessingException {
+        fileTextReader.read(fileName);
     }
 }
