@@ -1,6 +1,6 @@
 package by.kharitonov.day5.type;
 
-public class TextProcessingResults {
+public class TextProcessingData {
     public static final String SOURCE_TEXT;
     public static final String REPLACED_CHAR_IN_WORDS;
     public static final String REPLACED_ONE_TO_ANOTHER;
@@ -54,6 +54,6 @@ public class TextProcessingResults {
                 "  в пол322силы.";
     }
 
-    private TextProcessingResults() {
+    private TextProcessingData() {
     }
 }

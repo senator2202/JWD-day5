@@ -3,7 +3,7 @@ package test.kharitonov.day5.console;
 import by.kharitonov.day5.console.ConsoleTextReader;
 import by.kharitonov.day5.exception.TextProcessingException;
 import org.testng.annotations.Test;
-import by.kharitonov.day5.type.TextProcessingResults;
+import by.kharitonov.day5.type.TextProcessingData;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public class ConsoleTextReaderTest {
 
     @Test(groups = {"consoleChar", "consoleRegEx", "consoleString"})
     public void testReadText() {
-        String inputString = TextProcessingResults.SOURCE_TEXT;
+        String inputString = TextProcessingData.SOURCE_TEXT;
         InputStream sysInBackup = System.in;
         ByteArrayInputStream in =
                 new ByteArrayInputStream(inputString.getBytes());
