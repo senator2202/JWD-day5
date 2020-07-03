@@ -2,7 +2,9 @@ package by.kharitonov.day5.service.impl;
 
 import by.kharitonov.day5.service.TextProcessing;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class StreamTextProcessingImpl implements TextProcessing {
@@ -68,6 +70,62 @@ public class StreamTextProcessingImpl implements TextProcessing {
 
     @Override
     public String deleteConsonantWords(String text, int wordLength) {
-        return null;
+        String[] result = {text};
+        Arrays.stream(text.split(REGEX_SPLIT_WORDS))
+                .filter(word -> word.length() == wordLength && startsConsonant(word)).distinct()
+                .collect(Collectors.toMap(symbals -> symbals, symbals -> ""))
+                .forEach((k, v) -> result[0] = result[0].replaceAll(k, v));
+        return result[0];
+    }
+
+    private boolean startsConsonant(String word) {
+        StringBuilder sb = new StringBuilder(word.toLowerCase());
+        Character ch = sb.charAt(0);
+        return consonantList().indexOf(ch) != -1;
+    }
+
+    private List<Character> consonantList() {
+        List<Character> list = new ArrayList<>();
+        list.add('á');
+        list.add('â');
+        list.add('ã');
+        list.add('ä');
+        list.add('æ');
+        list.add('ç');
+        list.add('é');
+        list.add('ê');
+        list.add('ë');
+        list.add('ì');
+        list.add('í');
+        list.add('ï');
+        list.add('ğ');
+        list.add('ñ');
+        list.add('ò');
+        list.add('ô');
+        list.add('õ');
+        list.add('ö');
+        list.add('÷');
+        list.add('ø');
+        list.add('ù');
+        list.add('b');
+        list.add('c');
+        list.add('d');
+        list.add('f');
+        list.add('g');
+        list.add('h');
+        list.add('j');
+        list.add('k');
+        list.add('l');
+        list.add('m');
+        list.add('p');
+        list.add('q');
+        list.add('r');
+        list.add('s');
+        list.add('t');
+        list.add('v');
+        list.add('w');
+        list.add('x');
+        list.add('z');
+        return list;
     }
 }

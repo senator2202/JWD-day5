@@ -41,4 +41,12 @@ public class StreamTextProcessingImplTest {
         String actualText = processor.deleteAllNotSpaceOrLetter(sourceText);
         assertEquals(actualText, expectedText);
     }
+
+    @Test
+    public void testDeleteConsonantWords() {
+        String sourceText = TextProcessingData.SOURCE_TEXT;
+        String expectedText = TextProcessingData.DELETED_CONSONANT_WORDS;
+        String actualText = processor.deleteConsonantWords(sourceText, 7);
+        assertEquals(actualText, expectedText);
+    }
 }
