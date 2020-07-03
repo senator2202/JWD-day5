@@ -6,45 +6,35 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExTextProcessingImpl implements TextProcessing {
-    private static final String REGEX_PART_BEFORE_INDEX;
-    private static final String REGEX_PART_AFTER_INDEX;
-    private static final String REGEX_WORD_BEFORE_LENGTH;
-    private static final String REGEX_WORD_AFTER_LENGTH;
     private static final String REGEX_NOT_SPACE_LETTER;
-    private static final String REGEX_CONSONANT_WORD_BEFORE_LENGTH;
+    private static final String REGEX_ORDINAL_LETTER;
+    private static final String REPLACE_GROUP;
+    private static final String REGEX_WORD_DEFINITE_LENGTH;
+    private static final String REGEX_CONSONANT_WORD;
+    private static final String BLANK;
+    private static final String SPACE;
 
     static {
         String ls = System.getProperty("line.separator");
-        REGEX_PART_BEFORE_INDEX = "\\b[\\S]{";
-        REGEX_PART_AFTER_INDEX = ",}\\b";
-        REGEX_WORD_BEFORE_LENGTH = "\\b[‡-ˇ¿-ﬂ∏®\\w]{";
-        REGEX_WORD_AFTER_LENGTH = "}\\b";
-        REGEX_NOT_SPACE_LETTER = String.format("([^‡-ˇ¿-ﬂa-zA-Z∏®\\s]+)(%s)*",
+        REGEX_NOT_SPACE_LETTER = String.format("([^\\p{L}\\s]+)(%s)*",
                 ls);
-        REGEX_CONSONANT_WORD_BEFORE_LENGTH =
-                "\\b[·-˘¡-Ÿ\\w&&[^\\dÂ∏ËÓÛ˚≈®»Œ”€aeiouAEIOU]][\\S]{";
+        REGEX_ORDINAL_LETTER = "(\\b\\S{%d})(\\S)(\\S*\\b)";
+        REPLACE_GROUP = "$1%s$3";
+        REGEX_WORD_DEFINITE_LENGTH = "\\b\\p{L}{%d}\\b";
+        REGEX_CONSONANT_WORD =
+                "\\b[\\p{L}&&[^\\d‡Â∏ËÓÛ˚˝˛ˇ¿≈®»Œ”€›ﬁﬂaeiouAEIOU]][\\S]{%d}\\b";
+        BLANK = "";
+        SPACE = " ";
     }
 
     @Override
     public String replaceCharInWord(String text, int index,
                                     char charReplacement) {
-        String regEx = REGEX_PART_BEFORE_INDEX + index + REGEX_PART_AFTER_INDEX;
+        String regEx = String.format(REGEX_ORDINAL_LETTER, index - 1);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String temp = "" + charReplacement;
-            int start = matcher.start() + index - 1;
-            int end = start + 1;
-            text = replace(text, start, end, temp);
-        }
+        text = matcher.replaceAll(String.format(REPLACE_GROUP, charReplacement));
         return text;
-    }
-
-    private String replace(String text, int start, int end,
-                           String replacement) {
-        String head = text.substring(0, start);
-        String tail = text.substring(end);
-        return head + replacement + tail;
     }
 
     @Override
@@ -52,26 +42,17 @@ public class RegExTextProcessingImpl implements TextProcessing {
                                         String replacement) {
         Pattern pattern = Pattern.compile(target);
         Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            text = replace(text, matcher.start(), matcher.end(), replacement);
-        }
+        text = matcher.replaceAll(replacement);
         return text;
     }
 
     @Override
     public String replaceWordsToSubstring(String text, int wordLength,
                                           String substring) {
-        String regEx = REGEX_WORD_BEFORE_LENGTH + wordLength +
-                REGEX_WORD_AFTER_LENGTH;
+        String regEx = String.format(REGEX_WORD_DEFINITE_LENGTH, wordLength);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
-        int delta = 0;
-        while (matcher.find()) {
-            int start = matcher.start() + delta;
-            int end = matcher.end() + delta;
-            text = replace(text, start, end, substring);
-            delta += substring.length() - wordLength;
-        }
+        text = matcher.replaceAll(substring);
         return text;
     }
 
@@ -80,31 +61,16 @@ public class RegExTextProcessingImpl implements TextProcessing {
         String regEx = REGEX_NOT_SPACE_LETTER;
         Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text);
-        int start;
-        int end;
-        int delta = 0;
-        while (matcher.find()) {
-            start = matcher.start() + delta;
-            end = matcher.end() + delta;
-            text = replace(text, start, end, " ");
-            delta += (matcher.start() - matcher.end() + 1);
-        }
+        text = matcher.replaceAll(SPACE);
         return text;
     }
 
     @Override
     public String deleteConsonantWords(String text, int wordLength) {
-        String regEx = REGEX_CONSONANT_WORD_BEFORE_LENGTH + (wordLength - 1) +
-                REGEX_WORD_AFTER_LENGTH;
+        String regEx = String.format(REGEX_CONSONANT_WORD, wordLength - 1);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
-        int delta = 0;
-        while (matcher.find()) {
-            int start = matcher.start() + delta;
-            int end = matcher.end() + delta;
-            text = replace(text, start, end, "");
-            delta -= wordLength;
-        }
+        text = matcher.replaceAll(BLANK);
         return text;
     }
 }
