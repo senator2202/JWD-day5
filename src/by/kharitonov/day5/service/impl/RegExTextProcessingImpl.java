@@ -1,18 +1,19 @@
 package by.kharitonov.day5.service.impl;
 
+import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.service.TextProcessing;
+import by.kharitonov.day5.service.TextProcessingUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegExTextProcessingImpl implements TextProcessing {
+public class RegExTextProcessingImpl extends TextProcessingUtils
+        implements TextProcessing {
     private static final String REGEX_NOT_SPACE_LETTER;
     private static final String REGEX_ORDINAL_LETTER;
     private static final String REPLACE_GROUP;
     private static final String REGEX_WORD_DEFINITE_LENGTH;
     private static final String REGEX_CONSONANT_WORD;
-    private static final String BLANK;
-    private static final String SPACE;
 
     static {
         String ls = System.getProperty("line.separator");
@@ -23,14 +24,16 @@ public class RegExTextProcessingImpl implements TextProcessing {
         REGEX_WORD_DEFINITE_LENGTH = "\\b\\p{L}{%d}\\b";
         REGEX_CONSONANT_WORD =
                 "\\b[\\p{L}&&[^\\d‡Â∏ËÓÛ˚˝˛ˇ¿≈®»Œ”€›ﬁﬂaeiouAEIOU]][\\S]{%d}\\b";
-        BLANK = "";
-        SPACE = " ";
     }
 
     @Override
-    public String replaceCharInWord(String text, int index,
-                                    char charReplacement) {
-        String regEx = String.format(REGEX_ORDINAL_LETTER, index - 1);
+    public String replaceCharInWord(String text, int charNumber,
+                                    char charReplacement)
+            throws TextProcessingException {
+        if (text == null || charNumber <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
+        String regEx = String.format(REGEX_ORDINAL_LETTER, charNumber - 1);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
         text = matcher.replaceAll(String.format(REPLACE_GROUP, charReplacement));
@@ -39,7 +42,11 @@ public class RegExTextProcessingImpl implements TextProcessing {
 
     @Override
     public String replaceOneWithAnother(String text, String target,
-                                        String replacement) {
+                                        String replacement)
+            throws TextProcessingException {
+        if (text == null || target == null || replacement == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         Pattern pattern = Pattern.compile(target);
         Matcher matcher = pattern.matcher(text);
         text = matcher.replaceAll(replacement);
@@ -48,7 +55,11 @@ public class RegExTextProcessingImpl implements TextProcessing {
 
     @Override
     public String replaceWordsToSubstring(String text, int wordLength,
-                                          String substring) {
+                                          String substring)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0 || substring == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         String regEx = String.format(REGEX_WORD_DEFINITE_LENGTH, wordLength);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);
@@ -57,7 +68,11 @@ public class RegExTextProcessingImpl implements TextProcessing {
     }
 
     @Override
-    public String deleteAllNotSpaceOrLetter(String text) {
+    public String deleteAllNotSpaceOrLetter(String text)
+            throws TextProcessingException {
+        if (text == null) {
+            throw new TextProcessingException("Input text has null pointer!");
+        }
         String regEx = REGEX_NOT_SPACE_LETTER;
         Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text);
@@ -66,7 +81,11 @@ public class RegExTextProcessingImpl implements TextProcessing {
     }
 
     @Override
-    public String deleteConsonantWords(String text, int wordLength) {
+    public String deleteConsonantWords(String text, int wordLength)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         String regEx = String.format(REGEX_CONSONANT_WORD, wordLength - 1);
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(text);

@@ -1,30 +1,37 @@
 package by.kharitonov.day5.service.impl;
 
+import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.service.TextProcessing;
+import by.kharitonov.day5.service.TextProcessingUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class StringTextProcessingImpl implements TextProcessing {
+public class StringTextProcessingImpl extends TextProcessingUtils
+        implements TextProcessing {
     private static final String REGEX_SPLIT_WORDS;
     private static final String REGEX_SPLIT_NOT_SPACE_LETTER;
+    private static final String WORD_BOUNDARY;
+    private static final String QUOTE;
 
     static {
         String ls = System.getProperty("line.separator");
         REGEX_SPLIT_NOT_SPACE_LETTER = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
         REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.|;|:|\\?)\\s*";
+        WORD_BOUNDARY = "\\b";
+        QUOTE = "\\Q%s\\E";
     }
 
-    /*index starts from 1*/
     @Override
-    public String replaceCharInWord(String text, int index,
-                                    char charReplacement) {
+    public String replaceCharInWord(String text, int charNumber,
+                                    char charReplacement)
+            throws TextProcessingException {
+        if (text == null || charNumber <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         String[] words = text.split(REGEX_SPLIT_WORDS);
         for (String word : words) {
-            if (word.length() >= index) {
+            if (word.length() >= charNumber) {
                 StringBuilder sb = new StringBuilder(word);
-                String regex = "\\b" + word + "\\b";
-                sb.setCharAt(index - 1, charReplacement);
+                String regex = WORD_BOUNDARY + word + WORD_BOUNDARY;
+                sb.setCharAt(charNumber - 1, charReplacement);
                 text = text.replaceFirst(regex, sb.toString());
             }
         }
@@ -33,13 +40,21 @@ public class StringTextProcessingImpl implements TextProcessing {
 
     @Override
     public String replaceOneWithAnother(String text, String target,
-                                        String replacement) {
+                                        String replacement)
+            throws TextProcessingException {
+        if (text == null || target == null || replacement == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         return text.replace(target, replacement);
     }
 
     @Override
     public String replaceWordsToSubstring(String text, int wordLength,
-                                          String substring) {
+                                          String substring)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0 || substring == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         String[] words = text.split(REGEX_SPLIT_WORDS);
         for (String word : words) {
             if (word.length() == wordLength) {
@@ -50,82 +65,35 @@ public class StringTextProcessingImpl implements TextProcessing {
     }
 
     @Override
-    public String deleteAllNotSpaceOrLetter(String text) {
+    public String deleteAllNotSpaceOrLetter(String text)
+            throws TextProcessingException {
+        if (text == null) {
+            throw new TextProcessingException("Input text has null pointer!");
+        }
         String regEx = REGEX_SPLIT_NOT_SPACE_LETTER;
         String[] targets = text.split(regEx);
         for (String target : targets) {
             if (target.isEmpty()) {
                 continue;
             }
-            target = prepareText(target);
-            text = text.replaceFirst(target, " ");
+            target = String.format(QUOTE, target);
+            text = text.replaceFirst(target, SPACE);
         }
         return text;
-    }
-
-    private String prepareText(String data) {
-        return "\\Q"+data+"\\E";
     }
 
     @Override
-    public String deleteConsonantWords(String text, int wordLength) {
+    public String deleteConsonantWords(String text, int wordLength)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         String[] words = text.split(REGEX_SPLIT_WORDS);
         for (String word : words) {
-            if (word.length() == wordLength && startsConsonant(word)) {
-                text = text.replaceFirst(word, "");
+            if (word.length() == wordLength && isConsonant(word.charAt(0))) {
+                text = text.replaceFirst(word, BLANK);
             }
         }
         return text;
-    }
-
-    private boolean startsConsonant(String word) {
-        StringBuilder sb = new StringBuilder(word.toLowerCase());
-        Character ch = sb.charAt(0);
-        return consonantList().indexOf(ch) != -1;
-    }
-
-    private List<Character> consonantList() {
-        List<Character> list = new ArrayList<>();
-        list.add('á');
-        list.add('â');
-        list.add('ã');
-        list.add('ä');
-        list.add('æ');
-        list.add('ç');
-        list.add('é');
-        list.add('ê');
-        list.add('ë');
-        list.add('ì');
-        list.add('í');
-        list.add('ï');
-        list.add('ð');
-        list.add('ñ');
-        list.add('ò');
-        list.add('ô');
-        list.add('õ');
-        list.add('ö');
-        list.add('÷');
-        list.add('ø');
-        list.add('ù');
-        list.add('b');
-        list.add('c');
-        list.add('d');
-        list.add('f');
-        list.add('g');
-        list.add('h');
-        list.add('j');
-        list.add('k');
-        list.add('l');
-        list.add('m');
-        list.add('p');
-        list.add('q');
-        list.add('r');
-        list.add('s');
-        list.add('t');
-        list.add('v');
-        list.add('w');
-        list.add('x');
-        list.add('z');
-        return list;
     }
 }

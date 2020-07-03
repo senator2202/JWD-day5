@@ -1,19 +1,30 @@
 package by.kharitonov.day5.service.impl;
 
+import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.service.TextProcessing;
+import by.kharitonov.day5.service.TextProcessingUtils;
 
 import java.util.Arrays;
 
-public class CharTextProcessingImpl implements TextProcessing {
+public class CharTextProcessingImpl extends TextProcessingUtils
+        implements TextProcessing {
+    private static final String PUNCTUATION = "?,.!:;";
+    private static final String NEWLINES = "\r\n";
+    private static final char SPACE_CHAR = ' ';
+
     @Override
-    public String replaceCharInWord(String text, int index,
-                                    char charReplacement) {
+    public String replaceCharInWord(String text, int charNumber,
+                                    char charReplacement)
+            throws TextProcessingException {
+        if (text == null || charNumber <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         char[] data = text.toCharArray();
         for (int i = 0; i < data.length; i++) {
             int j = i;
             for (; j < data.length && !isWordBoundary(data, j); j++) ;
-            if ((j - i) >= index) {
-                data[i + index - 1] = charReplacement;
+            if ((j - i) >= charNumber) {
+                data[i + charNumber - 1] = charReplacement;
             }
             i = j;
         }
@@ -22,7 +33,11 @@ public class CharTextProcessingImpl implements TextProcessing {
 
     @Override
     public String replaceOneWithAnother(String text, String target,
-                                        String replacement) {
+                                        String replacement)
+            throws TextProcessingException {
+        if (text == null || target == null || replacement == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         char[] data = text.toCharArray();
         char[] charsTarget = target.toCharArray();
         int delta = target.length() - replacement.length();
@@ -45,7 +60,11 @@ public class CharTextProcessingImpl implements TextProcessing {
 
     @Override
     public String replaceWordsToSubstring(String text, int wordLength,
-                                          String substring) {
+                                          String substring)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0 || substring == null) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         char[] data = text.toCharArray();
         int delta;
         for (int i = 0; i < data.length; i++) {
@@ -63,20 +82,41 @@ public class CharTextProcessingImpl implements TextProcessing {
 
     private boolean isWordBoundary(char[] data, int index) {
         char ch = data[index];
-        char chNext = index == data.length - 1 ? ' ' : data[index + 1];
+        char chNext = index == data.length - 1 ? SPACE_CHAR : data[index + 1];
         boolean result = false;
         if (index == data.length - 1) {
             return true;
         }
-        if (ch == ' ' || ch == '\n') {
+        if (ch == SPACE_CHAR || isNewLine(ch)) {
             result = true;
         }
-        if ((ch == '?' || ch == ',' || ch == '.' ||
-                ch == '!' || ch == ':' || ch == ';') &&
-                (chNext == ' ' || chNext == '\r' || chNext == '\n')) {
+        if ((isPunctuation(ch)) &&
+                (chNext == SPACE_CHAR || isNewLine(chNext))) {
             result = true;
         }
         return result;
+    }
+
+    private boolean isPunctuation(char character) {
+        boolean flag = false;
+        for (int i = 0; i < PUNCTUATION.length(); i++) {
+            if (character == PUNCTUATION.charAt(i)) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    private boolean isNewLine(char character) {
+        boolean flag = false;
+        for (int i = 0; i < NEWLINES.length(); i++) {
+            if (character == NEWLINES.charAt(i)) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 
     private char[] replace(char[] data, int start, int end, char[] sequence) {
@@ -93,7 +133,11 @@ public class CharTextProcessingImpl implements TextProcessing {
     }
 
     @Override
-    public String deleteAllNotSpaceOrLetter(String text) {
+    public String deleteAllNotSpaceOrLetter(String text)
+            throws TextProcessingException {
+        if (text == null) {
+            throw new TextProcessingException("Input text has null pointer!");
+        }
         char[] data = text.toCharArray();
         int delta;
         for (int i = 0; i < data.length; i++) {
@@ -101,7 +145,7 @@ public class CharTextProcessingImpl implements TextProcessing {
             delta = 0;
             for (; j < data.length && !isSpaceOrLetter(data[j]); j++) ;
             if (j != i) {
-                data = replace(data, i, j, " ".toCharArray());
+                data = replace(data, i, j, SPACE.toCharArray());
                 delta = i - j;
             }
             i = j + delta;
@@ -111,11 +155,15 @@ public class CharTextProcessingImpl implements TextProcessing {
 
     private boolean isSpaceOrLetter(char character) {
         return (Character.isLetter(character) ||
-                character == ' ');
+                character == SPACE_CHAR);
     }
 
     @Override
-    public String deleteConsonantWords(String text, int wordLength) {
+    public String deleteConsonantWords(String text, int wordLength)
+            throws TextProcessingException {
+        if (text == null || wordLength <= 0) {
+            throw new TextProcessingException("Wrong input data!");
+        }
         char[] data = text.toCharArray();
         int delta;
         for (int i = 0; i < data.length; i++) {
@@ -123,56 +171,11 @@ public class CharTextProcessingImpl implements TextProcessing {
             int j = i;
             for (; j < data.length && !isWordBoundary(data, j); j++) ;
             if ((j - i) == wordLength && isConsonant(data[i])) {
-                data = replace(data, i, j, "".toCharArray());
+                data = replace(data, i, j, BLANK.toCharArray());
                 delta = i - j;
             }
             i = j + delta;
         }
         return new String(data);
-    }
-
-    private boolean isConsonant(char character) {
-        char ch = Character.toLowerCase(character);
-        return (ch == 'á' ||
-                ch == 'â' ||
-                ch == 'ã' ||
-                ch == 'ä' ||
-                ch == 'æ' ||
-                ch == 'ç' ||
-                ch == 'é' ||
-                ch == 'ê' ||
-                ch == 'ë' ||
-                ch == 'ì' ||
-                ch == 'í' ||
-                ch == 'ï' ||
-                ch == 'ð' ||
-                ch == 'ñ' ||
-                ch == 'ò' ||
-                ch == 'ô' ||
-                ch == 'õ' ||
-                ch == 'ö' ||
-                ch == '÷' ||
-                ch == 'ø' ||
-                ch == 'ù' ||
-                ch == 'b' ||
-                ch == 'c' ||
-                ch == 'd' ||
-                ch == 'f' ||
-                ch == 'g' ||
-                ch == 'h' ||
-                ch == 'j' ||
-                ch == 'k' ||
-                ch == 'l' ||
-                ch == 'm' ||
-                ch == 'n' ||
-                ch == 'p' ||
-                ch == 'q' ||
-                ch == 'r' ||
-                ch == 's' ||
-                ch == 't' ||
-                ch == 'v' ||
-                ch == 'w' ||
-                ch == 'x' ||
-                ch == 'z');
     }
 }
