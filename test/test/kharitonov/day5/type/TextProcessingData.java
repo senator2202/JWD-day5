@@ -1,4 +1,4 @@
-package test.kharitonov.day5.service.impl;
+package test.kharitonov.day5.type;
 
 public class TextProcessingData {
     public static final String SOURCE_TEXT;

@@ -2,7 +2,7 @@ package test.kharitonov.day5.service.impl;
 
 import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.service.impl.CharTextProcessingImpl;
-import by.kharitonov.day5.type.TextProcessingData;
+import test.kharitonov.day5.type.TextProcessingData;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
