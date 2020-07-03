@@ -2,8 +2,8 @@ package test.kharitonov.day5.console;
 
 import by.kharitonov.day5.console.ConsoleTextReader;
 import by.kharitonov.day5.exception.TextProcessingException;
-import test.kharitonov.day5.service.impl.TextProcessingData;
 import org.testng.annotations.Test;
+import test.kharitonov.day5.type.TextProcessingData;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

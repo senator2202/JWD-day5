@@ -2,7 +2,6 @@ package by.kharitonov.day5.service.impl;
 
 import by.kharitonov.day5.exception.TextProcessingException;
 import by.kharitonov.day5.service.TextProcessing;
-import by.kharitonov.day5.service.TextProcessingUtils;
 
 public class StringTextProcessingImpl extends TextProcessingUtils
         implements TextProcessing {

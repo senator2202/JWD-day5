@@ -1,9 +1,9 @@
-package by.kharitonov.day5.service;
+package by.kharitonov.day5.service.impl;
 
 public class TextProcessingUtils {
-    protected static final String BLANK = "";
-    protected static final String SPACE = " ";
-    protected static final String CONSONANTS =
+    static final String BLANK = "";
+    static final String SPACE = " ";
+    static final String CONSONANTS =
             "áâãäæçéêëìíïğñòôõö÷øùbcdfghjklmnpqrstvwxz";
 
     protected boolean isConsonant(char character) {
