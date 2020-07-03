@@ -22,7 +22,7 @@ public class RegExTextProcessingImpl extends TextProcessingUtils
         REPLACE_GROUP = "$1%s$3";
         REGEX_WORD_DEFINITE_LENGTH = "\\b\\p{L}{%d}\\b";
         REGEX_CONSONANT_WORD =
-                "\\b[\\p{L}&&[^\\d‡Â∏ËÓÛ˚˝˛ˇ¿≈®»Œ”€›ﬁﬂaeiouAEIOU]][\\S]{%d}\\b";
+                "\\b[\\p{L}&&[^\\d–∞—É–æ—ã–∏—ç—è—é—ë–ê–£–û–´–ò–≠–Ø–Æ–Å–µaeiouAEIOU]][\\S]{%d}\\b";
     }
 
     @Override

@@ -4,7 +4,7 @@ public class TextProcessingUtils {
     static final String BLANK = "";
     static final String SPACE = " ";
     static final String CONSONANTS =
-            "áâãäæçéêëìíïğñòôõö÷øùbcdfghjklmnpqrstvwxz";
+            "Ğ±Ğ²Ğ³Ğ´Ğ¶Ğ·Ğ¹ĞºĞ»Ğ¼Ğ½Ğ¿Ñ€ÑÑ‚Ñ„Ñ…Ñ†Ñ‡ÑˆÑ‰bcdfghjklmnpqrstvwxz";
 
     protected boolean isConsonant(char character) {
         char ch = Character.toLowerCase(character);

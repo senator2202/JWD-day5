@@ -12,7 +12,7 @@ public class StringTextProcessingImpl extends TextProcessingUtils
 
     static {
         String ls = System.getProperty("line.separator");
-        REGEX_SPLIT_NOT_SPACE_LETTER = "[à-ÿÀ-ßa-zA-Z¸¨\\s&&[^" + ls + "]]+";
+        REGEX_SPLIT_NOT_SPACE_LETTER = String.format("[\\p{L}\\s&&[^%s]]+", ls);
         REGEX_SPLIT_WORDS = "\\s*(\\s|,|!|\\.|;|:|\\?)\\s*";
         WORD_BOUNDARY = "\\b";
         QUOTE = "\\Q%s\\E";

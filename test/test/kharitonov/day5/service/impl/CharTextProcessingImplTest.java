@@ -45,8 +45,8 @@ public class CharTextProcessingImplTest {
     public void testReplaceOneWithAnother() throws TextProcessingException {
         String sourceText = TextProcessingData.SOURCE_TEXT;
         String expectedText = TextProcessingData.REPLACED_ONE_TO_ANOTHER;
-        String actualText = processor.replaceOneWithAnother(sourceText, "–¿",
-                "–Œ");
+        String actualText = processor.replaceOneWithAnother(sourceText, "–†–ê",
+                "–†–û");
         assertEquals(actualText, expectedText);
     }
 
@@ -76,7 +76,7 @@ public class CharTextProcessingImplTest {
         String sourceText = TextProcessingData.SOURCE_TEXT;
         String expectedText = TextProcessingData.REPLACED_WORD_TO_SUBSTRING;
         String actualText = processor.
-                replaceWordsToSubstring(sourceText, 7, "«¿Ã≈Õ¿");
+                replaceWordsToSubstring(sourceText, 7, "–ó–ê–ú–ï–ù–ê");
         assertEquals(actualText, expectedText);
     }
 
