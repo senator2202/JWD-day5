@@ -52,7 +52,6 @@ public class TextProcessingData {
                 "the bird in its beak." + ls +
                 "РАботя25га был недо<<волен РАзмером зарпл_аты, " +
                 "  в пол322силы.";
-
     }
 
     private TextProcessingData() {
