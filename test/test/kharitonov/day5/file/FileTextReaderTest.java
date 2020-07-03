@@ -27,7 +27,7 @@ public class FileTextReaderTest {
 
     @DataProvider(name = "dataReadException")
     @Test
-    public Object[][] dataReadEXception() {
+    public Object[][] dataReadException() {
         return new Object[][]{
                 {null},
                 {"WrongFile.txt"}

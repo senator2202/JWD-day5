@@ -69,8 +69,7 @@ public class StringTextProcessingImpl extends TextProcessingUtils
         if (text == null) {
             throw new TextProcessingException("Input text has null pointer!");
         }
-        String regEx = REGEX_SPLIT_NOT_SPACE_LETTER;
-        String[] targets = text.split(regEx);
+        String[] targets = text.split(REGEX_SPLIT_NOT_SPACE_LETTER);
         for (String target : targets) {
             if (target.isEmpty()) {
                 continue;

@@ -72,8 +72,8 @@ public class RegExTextProcessingImpl extends TextProcessingUtils
         if (text == null) {
             throw new TextProcessingException("Input text has null pointer!");
         }
-        String regEx = REGEX_NOT_SPACE_LETTER;
-        Pattern pattern = Pattern.compile(regEx, Pattern.MULTILINE);
+        Pattern pattern = Pattern.compile(REGEX_NOT_SPACE_LETTER,
+                Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text);
         text = matcher.replaceAll(SPACE);
         return text;
