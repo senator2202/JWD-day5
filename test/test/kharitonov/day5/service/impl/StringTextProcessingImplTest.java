@@ -5,7 +5,6 @@ import by.kharitonov.day5.service.impl.StringTextProcessingImpl;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import by.kharitonov.day5.type.TextProcessingData;
 
 import static org.testng.Assert.assertEquals;
 
