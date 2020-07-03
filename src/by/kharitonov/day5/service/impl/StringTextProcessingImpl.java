@@ -57,38 +57,14 @@ public class StringTextProcessingImpl implements TextProcessing {
             if (target.isEmpty()) {
                 continue;
             }
-            target = handleMeta(target);
+            target = prepareText(target);
             text = text.replaceFirst(target, " ");
         }
         return text;
     }
 
-    private String handleMeta(String data) {
-        StringBuilder sb = new StringBuilder(data);
-        for (int i = 0; i < sb.length(); i++) {
-            char ch = sb.charAt(i);
-            if (isMeta(ch)) {
-                sb.insert(i++, '\\');
-            }
-        }
-        return sb.toString();
-    }
-
-    private boolean isMeta(char ch) {
-        return getMetaSymbols().indexOf(ch) != -1;
-    }
-
-    private List<Character> getMetaSymbols() {
-        List<Character> list = new ArrayList<>();
-        list.add('.');
-        list.add('$');
-        list.add('\\');
-        list.add('*');
-        list.add('+');
-        list.add('?');
-        list.add('^');
-        list.add('|');
-        return list;
+    private String prepareText(String data) {
+        return "\\Q"+data+"\\E";
     }
 
     @Override
